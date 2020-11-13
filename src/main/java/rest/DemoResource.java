@@ -21,13 +21,14 @@ import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.SecurityContext;
 import utils.EMF_Creator;
+import utils.SetupTestUsers;
 
 /**
  * @author lam@cphbusiness.dk
  */
 @Path("info")
 public class DemoResource {
-    
+
     private static final EntityManagerFactory EMF = EMF_Creator.createEntityManagerFactory();
     private static final ExecutorService ES = Executors.newCachedThreadPool();
     private static final FacadeExample FACADE = FacadeExample.getFacadeExample(EMF);
@@ -53,7 +54,7 @@ public class DemoResource {
 
         EntityManager em = EMF.createEntityManager();
         try {
-            TypedQuery<User> query = em.createQuery ("select u from User u",entities.User.class);
+            TypedQuery<User> query = em.createQuery("select u from User u", entities.User.class);
             List<User> users = query.getResultList();
             return "[" + users.size() + "]";
         } finally {
@@ -78,7 +79,7 @@ public class DemoResource {
         String thisuser = securityContext.getUserPrincipal().getName();
         return "{\"msg\": \"Hello to (admin) User: " + thisuser + "\"}";
     }
-    
+
     @Path("parrallel")
     @GET
     @Produces({MediaType.APPLICATION_JSON})
@@ -94,4 +95,14 @@ public class DemoResource {
     public String getStarWarsCached() throws InterruptedException, ExecutionException, TimeoutException {
         return cachedResponse;
     }
+
+    @Path("setup")
+    @GET
+    @Produces({MediaType.APPLICATION_JSON})
+    public void setUpUsers() {
+        SetupTestUsers set = new SetupTestUsers();
+        set.setUpUsers();
+
+    }
+
 }
