@@ -1,5 +1,6 @@
 package facades;
 
+import entities.FavChar;
 import utils.EMF_Creator;
 import entities.RenameMe;
 import entities.Role;
@@ -11,11 +12,12 @@ import org.junit.jupiter.api.AfterEach;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import security.errorhandling.AuthenticationException;
 
 //Uncomment the line below, to temporarily disable this test
-//@Disabled
+
 public class FacadeExampleTest {
 
     private static EntityManagerFactory emf;
@@ -23,6 +25,7 @@ public class FacadeExampleTest {
     private static User user;
     private static User admin;
     private static User both;
+    private static FavChar favChar;
 
     public FacadeExampleTest() {
     }
@@ -48,16 +51,18 @@ public class FacadeExampleTest {
             //Delete existing users and roles to get a "fresh" database
             em.createQuery("delete from User").executeUpdate();
             em.createQuery("delete from Role").executeUpdate();
-
+            favChar = new FavChar("han solo", "44");
             Role userRole = new Role("user");
             Role adminRole = new Role("admin");
             user = new User("user", "test");
             user.addRole(userRole);
+            user.addFavChar(favChar);
             admin = new User("admin", "test");
             admin.addRole(adminRole);
             both = new User("user_admin", "test");
             both.addRole(userRole);
             both.addRole(adminRole);
+            em.persist(favChar);
             em.persist(userRole);
             em.persist(adminRole);
             em.persist(user);
