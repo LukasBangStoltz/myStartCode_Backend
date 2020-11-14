@@ -1,5 +1,7 @@
 package facades;
 
+import dto.FavCharDTO;
+import entities.FavChar;
 import entities.User;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -43,4 +45,20 @@ public class UserFacade {
         return user;
     }
 
+    public FavCharDTO addChar(FavCharDTO favCharDTO) {
+        EntityManager em = emf.createEntityManager();
+        try {
+
+            FavChar favChar = new FavChar(favCharDTO.getCharName(), favCharDTO.getCharAge());
+
+            em.getTransaction().begin();
+            em.persist(favChar);
+            em.getTransaction().commit();
+
+            return new FavCharDTO(favChar);
+        } finally {
+            emf.close();
+        }
+
+    }
 }

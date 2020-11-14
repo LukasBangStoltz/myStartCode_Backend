@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -35,7 +36,9 @@ public class User implements Serializable {
     @JoinColumn(name = "role_name", referencedColumnName = "role_name")})
   @ManyToMany
   private List<Role> roleList = new ArrayList<>();
-
+  @ManyToOne
+  private FavChar favChar;
+  
   public List<String> getRolesAsStrings() {
     if (roleList.isEmpty()) {
       return null;
@@ -45,6 +48,8 @@ public class User implements Serializable {
         rolesAsStrings.add(role.getRoleName());
       });
     return rolesAsStrings;
+    
+    
   }
 
   public User() {}
@@ -89,4 +94,15 @@ public class User implements Serializable {
     roleList.add(userRole);
   }
 
+  
+  public FavChar getFavChar() {
+        return favChar;
+    }
+
+    public void addFavChar(FavChar favChar) {
+        this.favChar = favChar;
+        if (favChar != null) {
+            favChar.getUsers().add(this);
+        }
+    }
 }
