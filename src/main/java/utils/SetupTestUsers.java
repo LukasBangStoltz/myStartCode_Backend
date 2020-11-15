@@ -9,7 +9,7 @@ import javax.persistence.EntityManagerFactory;
 
 public class SetupTestUsers {
 
-    public static void setUpUsers() {
+    public void setUpUsers() {
 
         EntityManagerFactory emf = EMF_Creator.createEntityManagerFactory();
         EntityManager em = emf.createEntityManager();
@@ -28,14 +28,14 @@ public class SetupTestUsers {
         }
 
         em.getTransaction().begin();
+        //em.persist(favChar);
         Role userRole = new Role("user");
         Role adminRole = new Role("admin");
         user.addRole(userRole);
-        user.addFavChar(favChar);
+        //user.addFavChar(favChar);
         admin.addRole(adminRole);
         both.addRole(userRole);
         both.addRole(adminRole);
-        em.persist(favChar);
         em.persist(userRole);
         em.persist(adminRole);
         em.persist(user);

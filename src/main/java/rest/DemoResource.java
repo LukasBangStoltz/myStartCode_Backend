@@ -27,6 +27,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import utils.EMF_Creator;
 import utils.SetupTestUsers;
+import utils.SetupTestUsers;
 
 /**
  * @author lam@cphbusiness.dk
@@ -105,8 +106,8 @@ public class DemoResource {
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     public void setUpUsers() {
-        SetupTestUsers set = new SetupTestUsers();
-        set.setUpUsers();
+        SetupTestUsers setupTestUsers = new SetupTestUsers();
+        setupTestUsers.setUpUsers();
 
     }
 
